@@ -27,7 +27,9 @@ module.exports = appInfo => {
   const userConfig = {
     // myAppName: 'egg',
     // serverName: ''
-    apiPrefix: '/admin-api'
+    apiPrefix: '/admin-api',
+    // 登录有效期
+    authExpirationDate: 30000
   };
 
   // 启动设置
