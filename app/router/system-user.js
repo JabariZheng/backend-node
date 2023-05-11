@@ -13,10 +13,10 @@ module.exports = async app => {
     updateUserPassword: 'put',
     updateUserStatus: 'put',
     updateUserAvatar: 'put',
-    getPage: 'get',
-    getDetail: 'get',
-    delete: 'delete',
-    create: 'post'
+    getUserPage: 'get',
+    getUserDetail: 'get',
+    deleteUser: 'delete',
+    createUser: 'post'
   }
   for (let item in list) {
     const type = list[item]
