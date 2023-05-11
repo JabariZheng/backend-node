@@ -66,7 +66,7 @@ class AuthController extends CommonControl {
   }
 
   /**
-   * @summart 登出
+   * @summary 登出
    * @router Post /admin-api/system/auth/logout
    */
   async logout () {
