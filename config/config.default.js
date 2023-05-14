@@ -29,7 +29,9 @@ module.exports = appInfo => {
     // serverName: ''
     apiPrefix: '/admin-api',
     // 登录有效期
-    authExpirationDate: 30000
+    authExpirationDate: 30000,
+    // 开启鉴权
+    enablePremission: false
   };
 
   // 启动设置

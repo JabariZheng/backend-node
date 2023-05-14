@@ -9,6 +9,10 @@
 module.exports = (_options) => {
   return async function (ctx, next) {
     const { jwt, config } = ctx.app
+    if (!config.enablePremission) {
+      await next()
+      return
+    }
     // swagger直接放行
     console.log('ctx.request.url', ctx.request.url)
     let replaceUrl = ctx.request.url.replace(config.apiPrefix, '')
