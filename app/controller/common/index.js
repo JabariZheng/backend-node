@@ -14,7 +14,7 @@ class CommonControl extends Controller {
    * @param {string} status 状态
    * @param {string} msg 信息
    */
-  successful (data = {}, code = 200, status = 'success', message = '成功', success = true) {
+  successful (message = '成功', data = {}, code = 200, status = 'success', success = true) {
     this.ctx.body = {
       data,
       code,

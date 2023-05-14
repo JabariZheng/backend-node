@@ -9,7 +9,7 @@ const moment = require('moment')
 
 const utils = {
   reg: new RegCheck(),
-  snowflakeID: new SnowflakeID(),
+  snowflakeID: new SnowflakeID({ WorkerId: 1 }),
   // 时间格式化
   // 用法：<div>{{data | dataFormat('yyyy-MM-dd hh:mm:ss')}}</div>
   formatDate: (value, fmt = 'YYYY-MM-DD HH:mm:ss', emptyString = '-') => {

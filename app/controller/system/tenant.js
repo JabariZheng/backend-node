@@ -11,15 +11,18 @@ const CommonControl = require("../common");
  * @controller 管理后台-租户
  */
 class TenantController extends CommonControl {
+
   /**
    * @summary 更新租户
    * @router Put /admin-api/system/tenant/update
+   * @request query id 目标id
    */
   async update () { }
 
   /**
    * @summary 创建租户
    * @router Post /admin-api/system/tenant/create
+   * @request body system.tenant.create
    */
   async create () { }
 
