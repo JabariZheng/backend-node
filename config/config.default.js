@@ -31,7 +31,7 @@ module.exports = appInfo => {
     // 登录有效期
     authExpirationDate: 30000,
     // 开启鉴权
-    enablePremission: false
+    enablePremission: true
   };
 
   // 启动设置
@@ -44,7 +44,7 @@ module.exports = appInfo => {
   };
 
   // 白名单
-  config.whiteList = ['/swagger-ui.html', '/system/user/getCaptchaImg', '/system/user/login', '/system/user/register'];
+  config.whiteList = ['/swagger-ui.html', '/system/auth/getCaptchaImg', '/system/auth/login'];
 
   // jwt
   config.jwt = {
