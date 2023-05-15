@@ -24,7 +24,16 @@ class TenantController extends CommonControl {
    * @router Post /admin-api/system/tenant/create
    * @request body system.tenant.create
    */
-  async create () { }
+  async create () {
+    const { ctx } = this
+    const { body } = ctx.request
+    try {
+      await ctx.service.tenant.create(body)
+      this.successful('操作成功')
+    } catch (error) {
+      console.log('error', error)
+    }
+  }
 
   /**
    * @summary 获得租户分页

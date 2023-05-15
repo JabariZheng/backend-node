@@ -28,29 +28,40 @@ module.exports = (_options) => {
     } else if (!config.whiteList.includes(replaceUrl)) {
       // 是否白名单
       // 取token
-      let token = ctx.request.header.authorization
-      if (token) {
+      let bearerToken = ctx.request.header.authorization
+      let splitLength = bearerToken.split('Bearer ')
+      if (bearerToken && splitLength.length === 2) {
         // 解密
+        const token = bearerToken.split('Bearer ')[1]
         let decode = jwt.verify(token, config.jwt.secret)
-        if (decode && decode.openid) {
+        if (decode && decode.data && decode.data.uid) {
+          // 校验是否已经登录
+          let getUserInfo = await ctx.service.redis.get(decode.data.uid)
+          if (getUserInfo) {
+            // 更新时间
+            await ctx.service.redis.set(decode.data.uid, getUserInfo, config.authExpirationDate)
+            ctx.uid = decode.data.uid
+            await next()
+            return
+          }
           ctx.body = {
-            data: {
-              openid: decode.openid
-            },
-            code: 200,
-            msg: 'success',
-            status: 'success'
+            code: 401,
+            msg: '登录已过期，请重新登录',
+            status: 'error',
+            data: null
           }
         } else {
-          // 存储openid
-          ctx.openid = decode.openid
-          await next()
+          ctx.body = {
+            code: 401,
+            msg: '登录异常，请重新登录',
+            status: 'error',
+            data: null
+          }
         }
-
       } else {
         ctx.body = {
           code: 401,
-          msg: 'no authorization(token)',
+          msg: '登录异常，请重新登录(no token)',
           status: 'error',
           data: null
         }

@@ -6,6 +6,29 @@
 const { Service } = require("egg");
 const svgCaptcha = require('svg-captcha');
 class UserService extends Service {
+
+  /**
+   * 是否存在用户
+   * @param {object} data 数据
+   * @returns boolean
+   */
+  async getUser (data) {
+    try {
+      const filter = await this.app.mysql.get('system_users', { username: data.username })
+      return filter
+    } catch (error) {
+      console.log('service.user.hasUser error', error)
+      return true
+    }
+  }
+
+  /**
+   * 保存用户
+   */
+  async saveUser(data) {
+    await this.app.mysql.insert('system_users', data)
+  }
+
   async getAll () {
     const allUser = await this.app.mysql.select('js_sys_user')
     return allUser
@@ -14,7 +37,7 @@ class UserService extends Service {
   /**
    * 根据email查找用户
    */
-  async getUserByEmail(email) {
+  async getUserByEmail (email) {
     const res = await this.app.mysql.get('sys_user', { email: email })
     return res
   }
@@ -40,7 +63,7 @@ class UserService extends Service {
    * 注册用户
    * @param {object} data 用户数据
    */
-  async registerAccount(data) {
+  async registerAccount (data) {
     if (Object.keys(data).length === 0) return
     // 
     const res = await this.app.mysql.insert('sys_user', data)

@@ -24,8 +24,21 @@ class DictTypeController extends CommonControl {
   async create () {
     const { ctx } = this;
     const { body } = ctx.request
-
     try {
+      let bodyData = {
+        ...body
+      }
+      if (!bodyData.name) {
+        this.errorReport('请输入字典名称')
+        return
+      }
+      if (!bodyData.type) {
+        this.errorReport('请输入字典类型')
+        return
+      }
+      if (bodyData.status === undefined || bodyData.status === null || isNaN(parseInt(bodyData.status))) {
+        bodyData.status = 0
+      }
       await ctx.service.dictType.create(body)
       this.successful('操作成功')
     } catch (error) {

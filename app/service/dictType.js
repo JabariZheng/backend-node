@@ -19,9 +19,9 @@ class DictTypeService extends Service {
       ...data,
       id: utils.snowflakeID.NextId(),
       creator: 'admin',
-      create_time: + new Date(),
+      create_time: utils.formatDate(+ new Date()),
       updater: 'admin',
-      update_time: + new Date(),
+      update_time: utils.formatDate(+ new Date()),
     }
     const res = await this.app.mysql.insert('system_dict_type', saveData)
     return res

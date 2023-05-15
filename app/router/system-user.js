@@ -16,7 +16,7 @@ module.exports = async app => {
     getUserPage: 'get',
     getUserDetail: 'get',
     deleteUser: 'delete',
-    createUser: 'post'
+    create: 'post'
   }
   for (let item in list) {
     const type = list[item]

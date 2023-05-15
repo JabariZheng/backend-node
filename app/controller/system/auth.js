@@ -45,21 +45,33 @@ class AuthController extends CommonControl {
     }
     // 校验验证码
     if (body.validCode.toUpperCase() === sessionVerifyCode.toUpperCase()) {
+      // 删除验证码缓存
+      await ctx.service.redis.del(ip)
       // 查询用户
-      const queryUserData = await ctx.service.user.getUserByEmail(body.email)
-      if (!queryUserData) {
-        this.failure('该账号无效')
+      const getUser = await ctx.service.user.getUser({ username: body.username })
+      if (!getUser) {
+        this.failure('该账号不存在')
         return
       }
       // 校验密码
-      if (body.password !== queryUserData.password) {
+      if (body.password !== getUser.password) {
+        console.log(body.password, getUser.password)
         this.failure('密码错误')
         return
       }
-      // 替换redis中的登录状态，有效期5分钟
-      await ctx.service.redis.set(ip, 1, config.authExpirationDate)
+      // 生成token
+      const token = await ctx.service.auth.generateJWTToken(getUser.id)
+      // 记录登录状态
+      await ctx.service.redis.set(getUser.id, JSON.stringify(getUser), config.authExpirationDate)
       // 成功返回
-      this.successful(queryUserData)
+      const { id, username, nickname, remark, dept_id, post_ids, email, mobile, sex, avatar, status, tenant_id } = getUser
+      this.successful('操作成功', {
+        userInfo: {
+          id, username, nickname, remark, dept_id, post_ids, email, mobile, sex, avatar, status, tenant_id,
+          deleted: Number(getUser.deleted)
+        },
+        token: token
+      })
     } else {
       this.failure('验证码错误')
     }
