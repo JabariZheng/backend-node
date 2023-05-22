@@ -10,5 +10,12 @@ module.exports = {
     type: { type: 'string', description: '字典类型' },
     status: { type: 'number', description: '状态' },
     remark: { type: 'string', description: '备注' },
+  },
+  "system.dictType.update": {
+    id: { type: 'string', description: 'ID' },
+    name: { type: 'string', description: '字典名称' },
+    type: { type: 'string', description: '字典类型' },
+    status: { type: 'number', description: '状态' },
+    remark: { type: 'string', description: '备注' },
   }
 }
