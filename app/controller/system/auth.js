@@ -80,9 +80,14 @@ class AuthController extends CommonControl {
   /**
    * @summary 登出
    * @router Post /admin-api/system/auth/logout
+   * @request header string authorization token值
    */
   async logout () {
-    await this.service.redis.del(this.ctx.request.ip)
+    const { ctx } = this;
+    const { header } = ctx.request
+    const uid = await ctx.service.auth.getLoginID(header.authorization)
+    // 清空信息
+    await ctx.service.redis.del(uid)
     this.successful('已登出')
   }
 

@@ -14,5 +14,16 @@ class AuthService extends Service {
       data: { uid: uid }
     }, this.app.config.jwt.secret)
   }
+
+  /**
+   * 解析header中的id
+   */
+  async getLoginID (bearerToken) {
+    const { jwt, config } = this.app
+    const token = bearerToken.split('Bearer ')[1]
+    let decode = jwt.verify(token, config.jwt.secret)
+    return decode.data.uid
+  }
+
 }
 module.exports = AuthService

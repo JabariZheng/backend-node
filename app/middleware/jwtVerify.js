@@ -14,8 +14,9 @@ module.exports = (_options) => {
       return
     }
     // swagger直接放行
-    console.log('ctx.request.url', ctx.request.url)
     let replaceUrl = ctx.request.url.replace(config.apiPrefix, '')
+    // console.log('ctx.request.url', ctx.request.url)
+    // console.log('replaceUrl', replaceUrl)
     if (ctx.request.url.startsWith('/swagger-')) {
       await next()
     } else if (!ctx.request.url.startsWith(`${config.apiPrefix}`)) {
@@ -40,7 +41,7 @@ module.exports = (_options) => {
           if (getUserInfo) {
             // 更新时间
             await ctx.service.redis.set(decode.data.uid, getUserInfo, config.authExpirationDate)
-            ctx.uid = decode.data.uid
+            // ctx.uid = decode.data.uid
             await next()
             return
           }
